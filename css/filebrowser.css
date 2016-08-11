@@ -1,0 +1,442 @@
+@charset "utf-8";
+
+body {
+	background-color: #FFFFFF;
+}
+
+
+/*-------------------------
+	File manager
+-------------------------*/
+
+
+.filemanager {
+	width: 95%;
+	max-width:1340px;
+	position: relative;
+	margin: 100px auto 50px;
+}
+
+/*-------------------------
+	Breadcrumps
+-------------------------*/
+
+
+.filemanager .breadcrumbs {
+	color: #444444;
+	font-size: 24px;
+	font-weight: 700;
+	line-height: 35px;
+}
+
+.filemanager .breadcrumbs a:link, .breadcrumbs a:visited {
+	color: #444444;
+	text-decoration: none;
+}
+
+.filemanager .breadcrumbs a:hover {
+	text-decoration: underline;
+}
+
+.filemanager .breadcrumbs .arrow {
+	color: #A4A7AC;
+	font-size: 24px;
+	font-weight: 700;
+	line-height: 20px;
+}
+
+
+/*-------------------------
+	Search box
+-------------------------*/
+
+
+.filemanager .search {
+	position: absolute;
+	padding-right: 30px;
+	cursor: pointer;
+	right: 0;
+	font-size: 17px;
+	color: #ffffff;
+	display: block;
+	width: 40px;
+	height: 40px;
+}
+
+.filemanager .search input[type=search] {
+	border-radius: 2px;
+	color: #fff;
+	background-color: #444;
+	width: 250px;
+	height: 44px;
+	margin-left: -262px;
+	margin-right: 12px;
+	padding-left: 20px;
+	text-decoration-color: #fff;
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 20px;
+	display: none;
+	outline: none;
+	border: none;
+	padding-right: 10px;
+	-webkit-appearance: none;
+}
+
+.filemanager .search .icon {
+	position: absolute;
+	top: 12px;
+	font-size: 23px;
+	color: #444;
+}
+
+::-webkit-input-placeholder { /* WebKit browsers */
+	color:    #fff;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+	color:    #fff;
+	opacity:  1;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+	color:    #fff;
+	opacity:  1;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+	color:    #fff;
+}
+
+
+/*-------------------------
+	Content area
+-------------------------*/
+
+.filemanager .data {
+	margin-top: 3rem;
+	z-index: -3;
+	padding-left: 0; 
+}
+
+.filemanager .data.animated {
+	-webkit-animation: showSlowlyElement 400ms; /* Chrome, Safari, Opera */
+	animation: showSlowlyElement 400ms; /* Standard syntax */
+	-webkit-animation-timing-function: cubic-bezier(.68,-0.55,.82,1.46);
+	animation-timing-function:         cubic-bezier(.68,-0.55,.82,1.46); 
+}
+
+.filemanager .data li {
+	border-radius: 3px;
+	background-color: #EDEDED;
+	width: 307px;
+	height: 118px;
+	list-style-type: none;
+	margin: 0;
+	display: inline-block;
+	position: relative;
+	overflow: hidden;
+	padding: 0.3em;
+	z-index: 1;
+	cursor: pointer;
+	box-sizing: border-box;
+	transition: 0.3s background-color;
+	margin-bottom: 1.8rem; 
+	margin-right: 2rem;
+}
+
+.filemanager .data li:hover {
+	background-color: #CDCDCD;
+}
+
+.filemanager .data li a {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.filemanager .data li .name {
+	color: #444444;
+	font-size: 15px;
+	font-weight: 700;
+	line-height: 20px;
+	width: 150px;
+	white-space: nowrap;
+	display: inline-block;
+	position: absolute;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	top: 40px;
+}
+
+.filemanager .data li .details {
+	color: #818181;
+	font-size: 13px;
+	font-weight: 400;
+	width: 55px;
+	height: 10px;
+	top: 64px;
+	white-space: nowrap;
+	position: absolute;
+	display: inline-block;
+}
+
+.filemanager .nothingfound {
+	background-color: #373743;
+	width: 23em;
+	height: 21em;
+	margin: 0 auto;
+	display: none;
+	-webkit-animation: showSlowlyElement 700ms; /* Chrome, Safari, Opera */
+	animation: showSlowlyElement 700ms; /* Standard syntax */
+	text-align: center;
+}
+
+.filemanager .nothingfound .nofiles {
+	margin: 30px auto;
+	top: 3em;
+	border-radius: 50%;
+	position:relative;
+	background-color: #D9534F;
+	width: 11em;
+	height: 11em;
+	line-height: 10.8em;
+	text-align: center;
+}
+.filemanager .nothingfound .nofiles:after {
+	content: '×';
+	/* position: absolute; */
+	color: #ffffff;
+	font-size: 14em;
+	/* margin-right: 0.092em; */
+	/* right: 0; */
+	text-align: center;
+	margin: auto;
+	display: block;
+}
+
+.filemanager .nothingfound span {
+	color: #ffffff;
+	font-size: 16px;
+	font-weight: 700;
+	line-height: 20px;
+	height: 13px;
+	position: relative;
+	top: 2em;
+}
+
+@media all and (max-width:965px) {
+
+	.filemanager .data li {
+		width: 100%;
+		margin: 5px 0;
+	}
+
+}
+
+/* Chrome, Safari, Opera */
+@-webkit-keyframes showSlowlyElement {
+	100%   	{ transform: scale(1); opacity: 1; }
+	0% 		{ transform: scale(1.1); opacity: 0; }
+}
+
+/* Standard syntax */
+@keyframes showSlowlyElement {
+	100%   	{ transform: scale(1); opacity: 1; }
+	0% 		{ transform: scale(1.1); opacity: 0; }
+}
+
+
+/*-------------------------
+		Icons
+-------------------------*/
+
+.mime-icon {
+	font-size: 23px;
+}
+.mime-icon.folder {
+	display: inline-block;
+	margin: 1em;
+	background-color: transparent;
+	overflow: hidden;
+}
+.mime-icon.folder:before {
+	content: '';
+	float: left;
+	background-color: #3882C1;
+	width: 1.5em;
+	height: 0.45em;
+	margin-left: 0.07em;
+	margin-bottom: -0.07em;
+	border-top-left-radius: 0.1em;
+	border-top-right-radius: 0.1em;
+	box-shadow: 1.25em 0.25em 0 0em #3882C1;
+}
+.mime-icon.folder:after {
+	content: '';
+	float: left;
+	clear: left;
+	background-color: #439BE6;
+	width: 3em;
+	height: 2.25em;
+	border-radius: 0.1em;
+}
+.mime-icon.folder.full:before {
+	height: 0.55em;
+}
+.mime-icon.folder.full:after {
+	height: 2.15em;
+	box-shadow: 0 -0.12em 0 0 #ffffff;
+}
+
+.mime-icon.file {
+	width: 2.5em;
+	height: 3em;
+	line-height: 3em;
+	text-align: center;
+	border-radius: 0.25em;
+	color: #FFF;
+	display: inline-block;
+	margin: 0.9em 1.2em 0.8em 1.3em;
+	position: relative;
+	overflow: hidden;
+	box-shadow: 1.74em -2.1em 0 0 #A4A7AC inset;
+}
+.mime-icon.file:first-line {
+	font-size: 13px;
+	font-weight: 700;
+}
+.mime-icon.file:after {
+	content: '';
+	position: absolute;
+	z-index: -1;
+	border-width: 0;
+	border-bottom: 2.6em solid #DADDE1;
+	border-right: 2.22em solid rgba(0, 0, 0, 0);
+	top: -34.5px;
+	right: -4px;
+}
+
+.mime-icon.file.f-avi,
+.mime-icon.file.f-flv,
+.mime-icon.file.f-mkv,
+.mime-icon.file.f-mov,
+.mime-icon.file.f-mpeg,
+.mime-icon.file.f-mpg,
+.mime-icon.file.f-mp4,
+.mime-icon.file.f-m4v,
+.mime-icon.file.f-wmv {
+	box-shadow: 1.74em -2.1em 0 0 #7e70ee inset;
+}
+.mime-icon.file.f-avi:after,
+.mime-icon.file.f-flv:after,
+.mime-icon.file.f-mkv:after,
+.mime-icon.file.f-mov:after,
+.mime-icon.file.f-mpeg:after,
+.mime-icon.file.f-mpg:after,
+.mime-icon.file.f-mp4:after,
+.mime-icon.file.f-m4v:after,
+.mime-icon.file.f-wmv:after {
+	border-bottom-color: #5649c1;
+}
+
+.mime-icon.file.f-mp2,
+.mime-icon.file.f-mp3,
+.mime-icon.file.f-m3u,
+.mime-icon.file.f-wma,
+.mime-icon.file.f-xls,
+.mime-icon.file.f-xlsx {
+	box-shadow: 1.74em -2.1em 0 0 #5bab6e inset;
+}
+.mime-icon.file.f-mp2:after,
+.mime-icon.file.f-mp3:after,
+.mime-icon.file.f-m3u:after,
+.mime-icon.file.f-wma:after,
+.mime-icon.file.f-xls:after,
+.mime-icon.file.f-xlsx:after {
+	border-bottom-color: #448353;
+}
+
+.mime-icon.file.f-doc,
+.mime-icon.file.f-docx,
+.mime-icon.file.f-psd{
+	box-shadow: 1.74em -2.1em 0 0 #03689b inset;
+}
+
+.mime-icon.file.f-doc:after,
+.mime-icon.file.f-docx:after,
+.mime-icon.file.f-psd:after {
+	border-bottom-color: #2980b9;
+}
+
+.mime-icon.file.f-gif,
+.mime-icon.file.f-jpg,
+.mime-icon.file.f-jpeg,
+.mime-icon.file.f-pdf,
+.mime-icon.file.f-png {
+	box-shadow: 1.74em -2.1em 0 0 #e15955 inset;
+}
+.mime-icon.file.f-gif:after,
+.mime-icon.file.f-jpg:after,
+.mime-icon.file.f-jpeg:after,
+.mime-icon.file.f-pdf:after,
+.mime-icon.file.f-png:after {
+	border-bottom-color: #c6393f;
+}
+
+.mime-icon.file.f-deb,
+.mime-icon.file.f-dmg,
+.mime-icon.file.f-gz,
+.mime-icon.file.f-rar,
+.mime-icon.file.f-zip,
+.mime-icon.file.f-7z {
+	box-shadow: 1.74em -2.1em 0 0 #867c75 inset;
+}
+.mime-icon.file.f-deb:after,
+.mime-icon.file.f-dmg:after,
+.mime-icon.file.f-gz:after,
+.mime-icon.file.f-rar:after,
+.mime-icon.file.f-zip:after,
+.mime-icon.file.f-7z:after {
+	border-bottom-color: #685f58;
+}
+
+.mime-icon.file.f-html,
+.mime-icon.file.f-rtf,
+.mime-icon.file.f-xml,
+.mime-icon.file.f-xhtml {
+	box-shadow: 1.74em -2.1em 0 0 #a94bb7 inset;
+}
+.mime-icon.file.f-html:after,
+.mime-icon.file.f-rtf:after,
+.mime-icon.file.f-xml:after,
+.mime-icon.file.f-xhtml:after {
+	border-bottom-color: #d65de8;
+}
+
+.mime-icon.file.f-js {
+	box-shadow: 1.74em -2.1em 0 0 #d0c54d inset;
+}
+.mime-icon.file.f-js:after {
+	border-bottom-color: #a69f4e;
+}
+
+.mime-icon.file.f-css,
+.mime-icon.file.f-saas,
+.mime-icon.file.f-scss {
+	box-shadow: 1.74em -2.1em 0 0 #44afa6 inset;
+}
+.mime-icon.file.f-css:after,
+.mime-icon.file.f-saas:after,
+.mime-icon.file.f-scss:after {
+	border-bottom-color: #30837c;
+}
+
+@media all and (max-width: 965px) {
+	.filemanager {
+		margin: 30px auto 0;
+		padding: 1px;
+	}
+	.filemanager .data {
+		margin-top: 1rem;
+	}
+}

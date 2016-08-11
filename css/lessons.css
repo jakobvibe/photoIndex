@@ -1,0 +1,44 @@
+html {
+	margin: 0; 
+	overflow: auto; 
+	height: 100%; 
+}
+body {
+	max-width: 960px;
+	margin-top: 0; 
+	margin-bottom: 0; 
+	margin-left: auto; 
+	margin-right: auto; 
+	font-size: 115%;
+	padding: 0 20px; 
+	overflow: hidden; 
+	min-height: 100%;
+}
+.lessons {
+	list-style-type: none;
+}
+
+.lesson {
+	display: block; 
+	width: 200px;
+	height: 150px;
+	float: left; 
+	position: relative; 
+	margin: 0 40px 40px 40px;
+}
+.lesson a, .lessson a:link, .lessson a:visited, .lessson a:hover, .lessson a:active {
+	text-decoration: none; 
+}
+
+.lesson .icon {
+	font-size: 200px; 
+}
+
+.lesson .name {
+	color: white; 
+	display: block;
+	position: absolute;
+	top: calc(200px - 59%);
+	left: calc(200px - 73%);
+	margin: auto;
+}

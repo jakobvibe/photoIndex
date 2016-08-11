@@ -1,0 +1,21 @@
+$primaryColor: #0275d8 !default;
+$blue: #0275D8;
+
+@if lightness($primaryColor) > lightness(#555) {
+	$primaryColorHighlight: darken($primaryColor, 15%);
+	$primaryTextColor: #444;
+} @else {
+	$primaryColorHighlight: lighten($primaryColor, 15%);
+	$primaryTextColor: #fff;
+}
+
+/*Icons*/
+$icon-info: "\e362"; 
+
+/*Mixins*/
+
+/*Extends*/
+.bottom-border {
+	padding-bottom: 1rem; 
+	border-bottom: .2rem solid $primaryColor;
+}
