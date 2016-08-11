@@ -20,7 +20,7 @@ function scan($dir, $thumbsDir){
 					"name" => utf8_encode($f),
 					"type" => "folder",
 					"path" => utf8_encode($filename),
-					"items" => scan($filename) // Recursively get the contents of the folder
+					"items" => scan($filename,$thumbsDir) // Recursively get the contents of the folder
 				);
 			}
 			else {
@@ -37,10 +37,10 @@ function scan($dir, $thumbsDir){
 					"name" => utf8_encode($f),
 					"type" => "file",
 					"path" => utf8_encode($filename),
-					"Copyright" => utf8_encode($exif['Copyright']),
-					"Artist" => utf8_encode($exif['Artist']),
-					"ImageDescription" => utf8_encode($exif['ImageDescription']),
-					"Keywords" => $keywords,
+					"copyright" => utf8_encode($exif['Copyright']),
+					"artist" => utf8_encode($exif['Artist']),
+					"imageDescription" => utf8_encode($exif['ImageDescription']),
+					"keywords" => $keywords,
 					"thumbnail" => "{$thumbsDir}/{$f}",
 					"size" => filesize($filename) // Gets the size of this file
 				);
@@ -60,10 +60,10 @@ function generateDirectoryListing($jsonFile, $photoDir, $thumbsDir) {
 	$lastModified = file_exists($jsonFile) ? filemtime($jsonFile) : false; 
 	
 	//Only generate a new file if no file exists or 5 seconds has passed since last generate
-	if ($lastModified === false || (time() - 5) > $lastModified) {
-		$dirScan = scan($photoDir);
+	if ($lastModified === false || (time() - 60) > $lastModified) {
+		$dirScan = scan($photoDir,$thumbsDir);
 		$content = json_encode(array(
-			"name" => "Photos",
+			"name" => "photos",
 			"type" => "folder",
 			"path" => utf8_encode($photoDir),
 			"items" => $dirScan
