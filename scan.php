@@ -26,22 +26,82 @@ function scan($dir, $thumbsDir){
 			else {
 				$exif = exif_read_data($filename);
 				$img = getimagesize($filename, $data);
+				$width = $img[0];
+				$height = $img[1];
 				$iptc = iptcparse($data['APP13']); 
 				if (is_array($iptc['2#025'])) $keywords = implode(',',$iptc['2#025']);
 				else unset($keywords);
 				
-				if (!file_exists("{$thumbsDir}/{$f}")) generateThumb($dir, $thumbsDir, $f, 100);
+				$exif_ifd0 = read_exif_data($filename ,'IFD0' ,0);       
+				$exif_exif = read_exif_data($filename ,'EXIF' ,0);
 				
+				if (!file_exists("{$thumbsDir}/{$f}")) generateThumb($dir, $thumbsDir, $f, 574);
+				
+				$notFound = "N/A";
+				
+				 // Make 
+				  if (@array_key_exists('Make', $exif_ifd0)) {
+					$camMake = $exif_ifd0['Make'];
+				  } else { $camMake = $notFound; }
+				
+				 // Model
+				  if (@array_key_exists('Model', $exif_ifd0)) {
+					$camModel = $exif_ifd0['Model'];
+				  } else { $camModel = $notFound; }
+				  
+				  // Exposure
+				  if (@array_key_exists('ExposureTime', $exif_ifd0)) {
+					$camExposure = $exif_ifd0['ExposureTime'];
+				  } else { $camExposure = $notFound; }
+
+				  // Aperture
+				  if (@array_key_exists('ApertureFNumber', $exif_ifd0['COMPUTED'])) {
+					$camAperture = $exif_ifd0['COMPUTED']['ApertureFNumber'];
+				  } else { $camAperture = $notFound; }
+				  
+				  // Date
+				  if (@array_key_exists('DateTime', $exif_ifd0)) {
+					$camDate = $exif_ifd0['DateTime'];
+				  } else { $camDate = $notFound; }
+				  
+				  // ISO
+				  if (@array_key_exists('ISOSpeedRatings',$exif_exif)) {
+					$camIso = $exif_exif['ISOSpeedRatings'];
+				  } else { $camIso = $notFound; }
+				  
+				  // Artist
+				  if (@array_key_exists('Artist',$exif_exif)) {
+					$camArtist = $exif_exif['Artist'];
+				  } else { $camArtist = $notFound; }
+				  
+				   // Copyright
+				  if (@array_key_exists('Copyright',$exif_exif)) {
+					$camCopyright = $exif_exif['Copyright'];
+				  } else { $camCopyright = $notFound; }
+				  
+				   // ImageDescription
+				  if (@array_key_exists('ImageDescription',$exif_exif)) {
+					$camImageDescription = $exif_exif['ImageDescription'];
+				  } else { $camImageDescription = $notFound; }
+				  
 				// It is a file
 				$files[] = array(
 					"name" => utf8_encode($f),
 					"type" => "file",
 					"path" => utf8_encode($filename),
-					"copyright" => utf8_encode($exif['Copyright']),
-					"artist" => utf8_encode($exif['Artist']),
-					"imageDescription" => utf8_encode($exif['ImageDescription']),
+					"copyright" => utf8_encode($camCopyright),
+					"artist" => utf8_encode($camArtist),
+					"imageDescription" => utf8_encode($camImageDescription),
 					"keywords" => $keywords,
 					"thumbnail" => "{$thumbsDir}/{$f}",
+					"width" => $width,
+					"height" => $height,
+					"camera_maker" => $camMake,
+					"camera_model" => $camModel,
+					"exposure" => $camExposure,
+					"aperture" => $camAperture,
+					"date" => $camDate,
+					"iso" => $camIso,
 					"size" => filesize($filename) // Gets the size of this file
 				);
 			}
@@ -59,7 +119,7 @@ function getDirectoryListing($jsonFile, $photoDir, $thumbsDir) {
 function generateDirectoryListing($jsonFile, $photoDir, $thumbsDir) {
 	$lastModified = file_exists($jsonFile) ? filemtime($jsonFile) : false; 
 	
-	//Only generate a new file if no file exists or 5 seconds has passed since last generate
+	//Only generate a new file if no file exists or 60 seconds has passed since last generate
 	if ($lastModified === false || (time() - 60) > $lastModified) {
 		$dirScan = scan($photoDir,$thumbsDir);
 		$content = json_encode(array(
@@ -86,8 +146,8 @@ function generateThumb($pathToImages, $pathToThumbs, $fname, $thumbWidth) {
     {
       //echo "Creating thumbnail for {$fname} <br />";
 
-      // load image and get image size
       $img = imagecreatefromjpeg( "{$pathToImages}/{$fname}" );
+      // load image and get image size
       $width = imagesx( $img );
       $height = imagesy( $img );
 
@@ -97,6 +157,9 @@ function generateThumb($pathToImages, $pathToThumbs, $fname, $thumbWidth) {
 
       // create a new temporary image
       $tmp_img = imagecreatetruecolor( $new_width, $new_height );
+	  
+	  // Switch antialiasing on for one image
+	  //imageantialias($tmp_img, true);
 
       // copy and resize old image into new image 
       imagecopyresized( $tmp_img, $img, 0, 0, 0, 0, $new_width, $new_height, $width, $height );
