@@ -16,6 +16,7 @@
 	<link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css" crossorigin="anonymous">
 	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/agate.min.css" media="screen">
 	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/vs.min.css" media="print">
+	<link href="css/filebrowser.css" rel="stylesheet"/>
 	<link href="js/vendor/photoswipe/photoswipe.css" rel="stylesheet"/>
 	<link href="js/vendor/photoswipe/default-skin/default-skin.css" rel="stylesheet"/>
 	<link rel="stylesheet" href="css/style.php/main.scss">

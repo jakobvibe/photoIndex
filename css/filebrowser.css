@@ -450,6 +450,45 @@ body {
 	border-bottom-color: #30837c;
 }
 
+.pswp__scroll-wrap {
+	width: 80% !important;
+}
+
+.photo-info {
+	width: 20%;
+	height: 100%;
+	position: absolute;
+	right: 0; 
+	opacity: 0;
+	transition-property: opacity;
+	transition-duration: 250ms;
+}
+
+.pswp--animated-in .photo-info {
+	opacity: 1;
+}
+
+.photo-info ul {
+	list-style-type: none;
+	background: #1b1b1b;
+	height: 100%;
+	margin: 0; 
+	padding: 0;
+}
+
+.photo-info .title {
+	background: #4e4e4e;
+}
+
+.photo-info li {
+	padding: 0.5rem 1rem;
+	color: #f5f5f5;
+}
+
+.photo-info .title .icon {
+	margin-right: 0.5rem;
+}
+
 @media all and (max-width: 965px) {
 	.filemanager {
 		margin: 30px auto 0;

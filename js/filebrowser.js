@@ -233,39 +233,44 @@ $(function(){
 
 		// Recursively search through the file tree
 
-		function searchData(data, searchTerms) {
-			data.forEach(function(d){
-				debugger;
+		function searchData(sData, searchTerms, result) {
+			if (typeof result === 'undefined') {
+				result = {
+					folders : [],
+					files: []
+				};
+			}
+			sData.forEach(function(d){
 				if(d.type === 'folder') {
 
-					searchData(d.items,searchTerms);
+					result = searchData(d.items,searchTerms, result);
 
 					if(d.name.toLowerCase().match(searchTerms)) {
-						folders.push(d);
+						result.folders.push(d);
 					}
 				}
 				else if(d.type === 'file') {
 					if(d.name.toLowerCase().match(searchTerms)) {
-						files.push(d);
+						result.files.push(d);
 					} 
 					if(typeof d.keywords == 'string' && d.keywords.toLowerCase().match(searchTerms)) {
-						files.push(d);
+						result.files.push(d);
 					}
 				}
 			});
-			return {folders: folders, files: files};
+			return result;
 		}
 
 
 		// Render the HTML for the file manager
 
-		function render(data) {
+		function render(renderData) {
 			var scannedFolders = [],
 				scannedFiles = [];
 
-			if(Array.isArray(data)) {
+			if(Array.isArray(renderData)) {
 
-				data.forEach(function (d) {
+				renderData.forEach(function (d) {
 
 					if (d.type === 'folder') {
 						scannedFolders.push(d);
@@ -277,10 +282,10 @@ $(function(){
 				});
 
 			}
-			else if(typeof data === 'object') {
+			else if(typeof renderData === 'object') {
 
-				scannedFolders = data.folders;
-				scannedFiles = data.files;
+				scannedFolders = renderData.folders;
+				scannedFiles = renderData.files;
 
 			}
 
@@ -330,14 +335,55 @@ $(function(){
 
 					var fileSize = bytesToSize(f.size),
 						name = escapeHTML(f.name),
+						path = f.path,
+						url = path.split('ø').join('%f8'),
+						thumb = f.thumbnail ? f.thumbnail.split('ø').join('%f8') : url,
+						artist = f.artist,
+						description = f.imageDescription == 'N/A' ? '' : f.imageDescription,
+						keywords = f.keywords,
 						fileType = name.split('.'),
+						width = f.width,
+						height = f.height,
+						isImage = false,
 						icon = '<span class="mime-icon file"></span>';
 
 					fileType = fileType[fileType.length-1];
-
+					isImage = $.inArray(fileType, imageFileTypes) !== -1;
+					artist = artist ? artist : 'Ukendt';
 					icon = '<span class="mime-icon file f-'+fileType+'">.'+fileType+'</span>';
 
-					var file = $('<li class="files"><a href="'+ f.path+'" title="'+ f.path +'" class="files" target="_blank">'+icon+'<span class="name">'+ name +'</span> <span class="details">'+fileSize+'</span></a></li>');
+					var file = $('<li class="files"><a href="'+ url+'" title="'+ path +'" class="files" target="_blank">'+icon+'<div class="info"><p class="description">'+description+'</p><span class="artist"><i class="icon icon-camera2"></i> '+ artist +'</span><span class="name">'+ name +'</span></div></a></li>');
+					var $link = file.find('a.files');
+					if (isImage) {
+						file.addClass('photo');
+						$link.css({
+							'background-image' : 'url("' + thumb + '")'
+						});
+					}
+					if (!description || description == '' || description == "") {
+						file.find('.description').hide();
+					}
+					
+					file.attr({
+						'data-name' : name,
+						'data-keywords' : keywords,
+						'data-fileSize' : fileSize,
+						'data-fileType' : fileType,
+						'data-isImage' : isImage,
+						'data-artist' : artist,
+						'data-copyright' : f.copyright,
+						'data-cameramaker' : f.camera_maker,
+						'data-cameramodel' : f.camera_model,
+						'data-exposure' : f.exposure,
+						'data-aperture' : f.aperture,
+						'data-iso' : f.iso,
+						'data-filesize' : f.size,
+						'data-timestamp' : f.date,
+						'data-description' : description,
+						'data-keywords' : keywords,
+						'data-url' : url,
+						'data-dimensions' : width +'x'+ height
+					});
 					file.appendTo(fileList);
 				});
 
@@ -393,15 +439,83 @@ $(function(){
 
 		// Convert file sizes from bytes to human readable units
 
-		function bytesToSize(bytes) {
-			var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-			if (bytes == 0) return '0 Bytes';
-			var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
-			return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
-		}
-
 	});
 });
+function bytesToSize(bytes) {
+	var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+	if (bytes == 0) return '0 Bytes';
+	var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+	return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+}
+
+function loadInfo($file) {
+	$info = $('.photo-info');
+	$info.find('.name.text').text($file.data('name'));
+	if ($file.data('description') && $file.data('description') != "") {
+		$info.find('.description.text').text($file.data('description'));
+		$info.find('.description').show();
+	} else {
+		$info.find('.description').hide();
+	}
+	$info.find('.file-info.text .filename').text($file.data('name'));
+	$info.find('.file-info.text .megapixel').text(function() {
+		var dimensions = [], width = 0, height = 0; 
+		if (!$file.data('dimensions')) {
+			return;
+		}
+		dimensions = $file.data('dimensions').split('x');
+		width = dimensions[0];
+		height = dimensions[1];
+		size = Math.round((parseInt(width * height, 10) / 1024000) * 10) / 10;
+		return size + 'MP';
+	});
+	$info.find('.file-info.text .dimensions').text($file.data('dimensions').replace('x',' × '));
+	$info.find('.file-info.text .filesize').text(bytesToSize($file.data('filesize')));
+	$info.find('.camera-info.text .model').text(function() {
+		var words = [], maker = '', model = '', makerShortName = '', fullName = '';
+		maker = $file.data('cameramaker') ? $file.data('cameramaker') : '';
+		model = $file.data('cameramodel') ? $file.data('cameramodel') : '';
+		words = maker.split(' ');
+		if (maker != '' && words.length == 0) {
+			makerShortName = maker;
+		} else if (maker != '' && words.length > 0) {
+			makerShortName = words[0];
+		} else {
+			makerShortName = '';
+		}
+		//The maker name is also present in the model name - do not append it
+		if (makerShortName != '' && model.indexOf(makerShortName) !== -1) {
+			fullName = model;
+		} else {
+			fullName = makerShortName + ' ' + model;
+		}
+		return fullName;
+	});
+	$info.find('.camera-info.text .aperture').text($file.data('aperture'));
+	$info.find('.camera-info.text .exposure').text($file.data('exposure'));
+	$info.find('.camera-info.text .iso').text(function(){
+		if ($file.data('iso') && String($file.data('iso')).indexOf('ISO') === -1) {
+			return 'ISO-'+$file.data('iso');
+		} else {
+			return $file.data('iso');
+		}
+	});
+	$info.find('.author-info.text .author').text($file.data('artist'));
+	$info.find('.author-info.text .copyright').text($file.data('copyright'));
+	$info.find('.keywords.text').html(function() {
+		var result = '';
+		var keywords = $file.data('keywords');
+		if (!keywords) {
+			return;
+		}
+		var keywordArr = keywords.split(',');
+		for (var i = 0; i < keywordArr.length; i++) {
+			result += '<a class="badge keyword" href="#search='+ keywordArr[i] +'">' + keywordArr[i] + '</a>';
+		}
+		return result;
+	});
+}
+
 var pswpElement = $('.pswp')[0];
 
 var options = {
