@@ -24,16 +24,17 @@
 		<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 		<script>window.html5 || document.write('<script src="js/vendor/html5shiv.js"><\/script>')</script>
 	<![endif]-->
-	<link href="css/filebrowser.css" rel="stylesheet"/>
 
 </head>
 <body>
 		<div class="container">
 			<div class="main">
 				<div class="filemanager">
-
+					<div class="clear-search">
+						<i class="icon icon-arrow-left"></i>
+					</div>
 					<div class="search">
-						<input type="search" placeholder="Find en fil..." />
+						<input type="search" tabindex="0" autofocus placeholder="Find en fil..." />
 						<i class="icon icon-search3"></i>
 					</div>
 

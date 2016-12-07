@@ -38,10 +38,8 @@ $(function(){
 
 		filemanager.find('.search').click(function(){
 
-			var search = $(this);
-
-			search.find('span').hide();
-			search.find('input[type=search]').show().focus();
+			$(this).find('span').hide();
+			$(this).find('input[type=search]').show().focus();
 
 		});
 
@@ -50,7 +48,7 @@ $(function(){
 		// We are using the "input" event which detects cut and paste
 		// in addition to keyboard input.
 
-		filemanager.find('input').on('input', function(e){
+		var search = filemanager.find('.search input').on('input', function(e){
 
 			folders = [];
 			files = [];
@@ -77,28 +75,30 @@ $(function(){
 
 			// Clicking 'ESC' button triggers focusout and cancels the search
 
-			var search = $(this);
-
 			if(e.keyCode == 27) {
 
-				search.trigger('focusout');
+				$(this).trigger('focusout');
 
 			}
 
 		}).focusout(function(e){
 
 			// Cancel the search
+			
 
-			var search = $(this);
-
-			if(!search.val().trim().length) {
-
+			if (window.location.hash.length > 0) {
 				window.location.hash = encodeURIComponent(currentPath);
-				search.hide();
-				search.parent().find('span').show();
-
 			}
+			$(this).val('');
+			$(this).hide();
+			$(this).parent().find('span').show();
 
+			filemanager.removeClass('searching');
+
+		});
+		
+		$('.clear-search').click(function(e){
+			search.trigger('focusout');
 		});
 
 
@@ -127,7 +127,6 @@ $(function(){
 			currentPath = nextDir;
 		});
 
-
 		// Clicking on breadcrumbs
 
 		breadcrumbs.on('click', 'a', function(e){
@@ -148,7 +147,6 @@ $(function(){
 		function goto(hash) {
 
 			hash = decodeURIComponent(hash).slice(1).split('=');
-
 			if (hash.length) {
 				var rendered = '';
 				fileList.removeClass('animated').addClass('animated-switch');
@@ -158,7 +156,6 @@ $(function(){
 
 					filemanager.addClass('searching');
 					rendered = searchData(response, hash[1].toLowerCase());
-
 					if (rendered.length) {
 						currentPath = hash[0];
 						render(rendered);
@@ -172,7 +169,7 @@ $(function(){
 				// if hash is some path
 
 				else if (hash[0].trim().length) {
-
+					filemanager.removeClass('searching');
 					rendered = searchByPath(hash[0]);
 
 					if (rendered.length) {
@@ -193,6 +190,7 @@ $(function(){
 				// if there is no hash
 
 				else {
+					filemanager.removeClass('searching');
 					currentPath = data.path;
 					breadcrumbsUrls.push(data.path);
 					render(searchByPath(data.path));
@@ -351,8 +349,9 @@ $(function(){
 			var url = '';
 
 			if(filemanager.hasClass('searching')){
-
-				url = '<span>Search results: </span>';
+				hash = decodeURIComponent(window.location.hash).slice(1).split('=');
+				debugger;
+				url = '<span>Søgning: '+ hash[1] +'</span>' ;
 				fileList.removeClass('animated');
 
 			}
