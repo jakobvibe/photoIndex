@@ -396,7 +396,6 @@ $(function(){
 
 			if(filemanager.hasClass('searching')){
 				hash = decodeURIComponent(window.location.hash).slice(1).split('=');
-				debugger;
 				url = '<span>Søgning: '+ hash[1] +'</span>' ;
 				fileList.removeClass('animated');
 
