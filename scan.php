@@ -1,6 +1,7 @@
 <?php
-
-
+set_time_limit(0);
+require_once('libs/encoding.php'); 
+use \ForceUTF8\Encoding;  // It's namespaced now.
 
 function scan($dir, $thumbsDir){
 
@@ -86,18 +87,18 @@ function scan($dir, $thumbsDir){
 				  
 				// It is a file
 				$files[] = array(
-					"name" => utf8_encode($f),
+					"name" => Encoding::toUTF8($f),
 					"type" => "file",
-					"path" => utf8_encode($filename),
-					"copyright" => utf8_encode($camCopyright),
-					"artist" => utf8_encode($camArtist),
-					"imageDescription" => utf8_encode($camImageDescription),
-					"keywords" => $keywords,
-					"thumbnail" => "{$thumbsDir}/{$f}",
+					"path" => Encoding::toUTF8($filename),
+					"copyright" => Encoding::toUTF8($camCopyright),
+					"artist" => Encoding::toUTF8($camArtist),
+					"imageDescription" => Encoding::toUTF8($camImageDescription),
+					"keywords" => Encoding::toUTF8($keywords),
+					"thumbnail" => Encoding::toUTF8("{$thumbsDir}/{$f}"),
 					"width" => $width,
 					"height" => $height,
-					"camera_maker" => $camMake,
-					"camera_model" => $camModel,
+					"camera_maker" => Encoding::toUTF8($camMake),
+					"camera_model" => Encoding::toUTF8($camModel),
 					"exposure" => $camExposure,
 					"aperture" => $camAperture,
 					"date" => $camDate,
@@ -117,19 +118,14 @@ function getDirectoryListing($jsonFile, $photoDir, $thumbsDir) {
 }
 
 function generateDirectoryListing($jsonFile, $photoDir, $thumbsDir) {
-	$lastModified = file_exists($jsonFile) ? filemtime($jsonFile) : false; 
-	
-	//Only generate a new file if no file exists or 60 seconds has passed since last generate
-	if ($lastModified === false || (time() - 60) > $lastModified) {
-		$dirScan = scan($photoDir,$thumbsDir);
-		$content = json_encode(array(
-			"name" => "photos",
-			"type" => "folder",
-			"path" => utf8_encode($photoDir),
-			"items" => $dirScan
-		));
-		file_put_contents($jsonFile, $content);
-	}
+	$dirScan = scan($photoDir,$thumbsDir);
+	$content = json_encode(array(
+		"name" => "photos",
+		"type" => "folder",
+		"path" => Encoding::toUTF8($photoDir),
+		"items" => $dirScan
+	));
+	file_put_contents($jsonFile, $content);
 }
 
 function serveDirectoryListing($jsonFile) {
