@@ -46,7 +46,8 @@ function scan($dir, $thumbsDir){
      			}
 				
 				
-				if (!file_exists("{$thumbsDir}/{$f}")) generateThumb($dir, $thumbsDir, $f, 574);
+				if (!file_exists("{$thumbsDir}/small/{$f}")) generateThumb($dir, $thumbsDir.'/small', $f, 574);
+				if (!file_exists("{$thumbsDir}/large/{$f}")) generateThumb($dir, $thumbsDir.'/large', $f, 1600);
 				
 				$notFound = "N/A";
 
@@ -108,7 +109,8 @@ function scan($dir, $thumbsDir){
 					"artist" => Encoding::toUTF8($camArtist),
 					"imageDescription" => Encoding::toUTF8($camImageDescription),
 					"keywords" => Encoding::toUTF8($keywords),
-					"thumbnail" => Encoding::toUTF8("{$thumbsDir}/{$f}"),
+					"thumbnail" => Encoding::toUTF8("{$thumbsDir}/small/{$f}"),
+					"thumbnail_large" => Encoding::toUTF8("{$thumbsDir}/large/{$f}"),
 					"width" => $width,
 					"height" => $height,
 					"camera_maker" => Encoding::toUTF8($camMake),
