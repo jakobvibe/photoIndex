@@ -11,7 +11,7 @@ $(function(){
 
 	// Start by fetching the file data from scan.php with an AJAX request
 
-	$.get('scan.php', function(data) {
+	$.get('directorylist.json', function(data) {
 
 		var response = [data],
 			currentPath = '',
