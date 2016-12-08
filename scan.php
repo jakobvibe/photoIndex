@@ -9,7 +9,6 @@ function scan($dir, $thumbsDir){
 	
 	if(file_exists($dir)){
 		foreach(scandir($dir) as $f) {
-	
 			if(!$f || $f[0] == '.') {
 				continue; // Ignore hidden files
 			}
@@ -18,23 +17,34 @@ function scan($dir, $thumbsDir){
 			if(is_dir($filename)) {
 				// The path is a folder
 				$files[] = array(
-					"name" => utf8_encode($f),
+					"name" => Encoding::toUTF8($f),
 					"type" => "folder",
-					"path" => utf8_encode($filename),
+					"path" => Encoding::toUTF8($filename),
 					"items" => scan($filename,$thumbsDir) // Recursively get the contents of the folder
 				);
 			}
 			else {
-				$exif = exif_read_data($filename);
+				
+				if(!strpos($filename, 'jpg')) {
+					continue;
+				}
+
 				$img = getimagesize($filename, $data);
 				$width = $img[0];
 				$height = $img[1];
-				$iptc = iptcparse($data['APP13']); 
-				if (is_array($iptc['2#025'])) $keywords = implode(',',$iptc['2#025']);
-				else unset($keywords);
+				if (array_key_exists('APP13', $data)) $iptc = iptcparse($data['APP13']); 
+				if (is_array($iptc) && array_key_exists('2#025', $iptc) && is_array($iptc['2#025'])) $keywords = implode(',',$iptc['2#025']);
+				else $keywords = '';
 				
-				$exif_ifd0 = read_exif_data($filename ,'IFD0' ,0);       
-				$exif_exif = read_exif_data($filename ,'EXIF' ,0);
+				try {
+        			$exif_ifd0 = @exif_read_data ($filename ,'IFD0');       
+					$exif_exif = @exif_read_data ($filename ,'EXIF');
+     			}
+     			catch (Exception $exp) {
+        			$exif_ifd0 = false;
+        			$exif_exif = false;
+     			}
+				
 				
 				if (!file_exists("{$thumbsDir}/{$f}")) generateThumb($dir, $thumbsDir, $f, 574);
 				
@@ -142,26 +152,29 @@ function generateThumb($pathToImages, $pathToThumbs, $fname, $thumbWidth) {
     {
       //echo "Creating thumbnail for {$fname} <br />";
 
-      $img = imagecreatefromjpeg( "{$pathToImages}/{$fname}" );
-      // load image and get image size
-      $width = imagesx( $img );
-      $height = imagesy( $img );
+		if($fname) $img = imagecreatefromjpeg( "{$pathToImages}/{$fname}" );
+     
+		if($img) {
+		  // load image and get image size
+		  $width = imagesx( $img );
+		  $height = imagesy( $img );
 
-      // calculate thumbnail size
-      $new_width = $thumbWidth;
-      $new_height = floor( $height * ( $thumbWidth / $width ) );
+		  // calculate thumbnail size
+		  $new_width = $thumbWidth;
+		  $new_height = floor( $height * ( $thumbWidth / $width ) );
 
-      // create a new temporary image
-      $tmp_img = imagecreatetruecolor( $new_width, $new_height );
-	  
-	  // Switch antialiasing on for one image
-	  //imageantialias($tmp_img, true);
+		  // create a new temporary image
+		  $tmp_img = imagecreatetruecolor( $new_width, $new_height );
+		  
+		  // Switch antialiasing on for one image
+		  //imageantialias($tmp_img, true);
 
-      // copy and resize old image into new image 
-      imagecopyresized( $tmp_img, $img, 0, 0, 0, 0, $new_width, $new_height, $width, $height );
+		  // copy and resize old image into new image 
+		  imagecopyresized( $tmp_img, $img, 0, 0, 0, 0, $new_width, $new_height, $width, $height );
 
-      // save thumbnail into a file
-      imagejpeg( $tmp_img, "{$pathToThumbs}/{$fname}" );
+		  // save thumbnail into a file
+		  imagejpeg( $tmp_img, "{$pathToThumbs}/{$fname}" );
+		}
     }
 }
 
