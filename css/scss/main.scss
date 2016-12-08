@@ -40,6 +40,9 @@ body {
 					background: rgba(0,0,0,0.6);
 					transition: background 0.3s;
 				}
+				.description {
+					display: block; 
+				}
 			}
 			a.files {
 				background-size: cover;
@@ -67,6 +70,7 @@ body {
 				font-weight: 300; 
 				text-shadow: 1px 1px 0 rgba(0,0,0,1);
 				line-height: 1.2;
+				display: none;
 			}
 		}
 	}
