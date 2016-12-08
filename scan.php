@@ -49,7 +49,7 @@ function scan($dir, $thumbsDir){
 				if (!file_exists("{$thumbsDir}/{$f}")) generateThumb($dir, $thumbsDir, $f, 574);
 				
 				$notFound = "N/A";
-				
+
 				 // Make 
 				  if (@array_key_exists('Make', $exif_ifd0)) {
 					$camMake = $exif_ifd0['Make'];
@@ -79,16 +79,20 @@ function scan($dir, $thumbsDir){
 				  if (@array_key_exists('ISOSpeedRatings',$exif_exif)) {
 					$camIso = $exif_exif['ISOSpeedRatings'];
 				  } else { $camIso = $notFound; }
-				  
-				  // Artist
-				  if (@array_key_exists('Artist',$exif_exif)) {
-					$camArtist = $exif_exif['Artist'];
-				  } else { $camArtist = $notFound; }
-				  
+
 				   // Copyright
 				  if (@array_key_exists('Copyright',$exif_exif)) {
 					$camCopyright = $exif_exif['Copyright'];
 				  } else { $camCopyright = $notFound; }
+
+				  // Artist
+				  if (@array_key_exists('Artist',$exif_exif)) {
+					$camArtist = $exif_exif['Artist'];
+					if(preg_match('/^\d/', $camArtist)) {
+						$camArtist = $camCopyright;
+					}
+				  } else { $camArtist = $notFound; }
+				  
 				  
 				   // ImageDescription
 				  if (@array_key_exists('ImageDescription',$exif_exif)) {
