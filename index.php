@@ -11,11 +11,8 @@
 	<link rel="shortcut icon" href="/favicon.ico?v=2" type="image/x-icon">
 	
 	<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,900,700italic,900italic' rel='stylesheet' type='text/css'>
-	<link href='https://fonts.googleapis.com/css?family=Pirata+One' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="css/icons/style.css">
 	<link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css" crossorigin="anonymous">
-	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/agate.min.css" media="screen">
-	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/styles/vs.min.css" media="print">
 	<link href="css/filebrowser.css" rel="stylesheet"/>
 	<link href="js/vendor/photoswipe/photoswipe.css" rel="stylesheet"/>
 	<link href="js/vendor/photoswipe/default-skin/default-skin.css" rel="stylesheet"/>

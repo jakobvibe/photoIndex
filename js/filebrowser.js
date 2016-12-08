@@ -336,8 +336,8 @@ $(function(){
 					var fileSize = bytesToSize(f.size),
 						name = escapeHTML(f.name),
 						path = f.path,
-						url = path.split('ø').join('%f8'),
-						thumb = f.thumbnail ? f.thumbnail.split('ø').join('%f8') : url,
+						url = path,
+						thumb = f.thumbnail ? f.thumbnail : url,
 						artist = f.artist,
 						description = f.imageDescription == 'N/A' ? '' : f.imageDescription,
 						keywords = f.keywords,
@@ -396,7 +396,6 @@ $(function(){
 
 			if(filemanager.hasClass('searching')){
 				hash = decodeURIComponent(window.location.hash).slice(1).split('=');
-				debugger;
 				url = '<span>Søgning: '+ hash[1] +'</span>' ;
 				fileList.removeClass('animated');
 
