@@ -685,6 +685,12 @@ var options = {
 						captionEl.children[0].innerHTML = item.title +	'<br/><small>Photo: ' + item.author + '</small>';
 						return true;
 					},
+					shareButtons: [
+						{id:'facebook', label:'Del på Facebook', url:'https://www.facebook.com/sharer/sharer.php?u={{url}}'},
+						{id:'twitter', label:'Tweet', url:'https://twitter.com/intent/tweet?text={{text}}&url={{url}}'},
+						{id:'download', label:'Download foto', url:'{{raw_image_url}}', download:true}
+					]
+
 					
 				};
 
