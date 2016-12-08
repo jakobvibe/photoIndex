@@ -38,7 +38,8 @@ body {
 			&:hover {
 				.info {
 					background: rgba(0,0,0,0.6);
-					transition: background 0.3s;
+					opacity: 1;
+					transition: background,opacity 0.3s;
 				}
 				.description {
 					display: block; 
@@ -56,6 +57,7 @@ body {
 				position: absolute;
 				bottom: 0;
 				width: 100%;
+				opacity: 0.5;
 			}
 			.name {
 				display: inline-block; 
