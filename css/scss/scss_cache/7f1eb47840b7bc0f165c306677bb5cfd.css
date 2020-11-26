@@ -1,0 +1,164 @@
+/* compiled by scssphp v0.0.12 on Thu, 17 May 2018 12:30:07 +0200 (0.0047s) */
+
+body {
+  font-family: Roboto, sans-serif; }
+
+.container {
+  max-width: 98%;
+  width: 98%; }
+
+.filemanager {
+  width: 100%;
+  max-width: 100%; }
+  .filemanager .controls {
+    overflow: hidden; }
+    .filemanager .controls .nav-btn {
+      float: left; }
+      @media screen and (max-width: 620px) {
+  .filemanager .controls .nav-btn {
+    float: none;
+    display: block !important; } }
+    .filemanager .controls .search {
+      position: relative;
+      float: right;
+      width: 300px;
+      height: 38px; }
+      @media screen and (max-width: 620px) {
+  .filemanager .controls .search {
+    width: 100%;
+    margin: 1rem 0;
+    display: table;
+    padding: 0; } }
+      .filemanager .controls .search input[type=search] {
+        position: absolute;
+        right: 40px;
+        height: 38px;
+        display: none; }
+        @media screen and (max-width: 620px) {
+  .filemanager .controls .search input[type=search] {
+    display: table-cell !important;
+    position: static;
+    width: 100%;
+    float: none;
+    margin: 0; } }
+      .filemanager .controls .search .icon {
+        position: absolute;
+        right: 0; }
+        @media screen and (max-width: 620px) {
+  .filemanager .controls .search .icon {
+    display: table-cell;
+    position: static;
+    padding-left: 1rem;
+    float: none; } }
+    .filemanager .controls .clear-search {
+      display: none !important; }
+  .filemanager .data {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -1rem;
+    margin-right: -1rem; }
+    @media screen and (max-width: 480px) {
+  .filemanager .data {
+    max-width: 100%; } }
+    .filemanager .data li {
+      flex-shrink: 1;
+      flex-grow: 1;
+      flex-basis: 20%;
+      min-width: 450px;
+      margin: 1rem;
+      height: 282px; }
+      @media screen and (max-width: 480px) {
+  .filemanager .data li {
+    width: 100%;
+    min-width: 100%; } }
+      .filemanager .data li > a {
+        color: white; }
+        .filemanager .data li > a:link, .filemanager .data li > a:visited, .filemanager .data li > a:hover, .filemanager .data li > a:active {
+          color: white;
+          text-decoration: none; }
+      .filemanager .data li.photo:hover .info {
+        background: rgba(0, 0, 0, 0.6);
+        opacity: 1;
+        transition: background, opacity 0.3s; }
+        .filemanager .data li.photo:hover .description {
+          display: block; }
+        .filemanager .data li.photo a.files {
+          background-size: cover; }
+        .filemanager .data li.photo .mime-icon {
+          display: none; }
+        .filemanager .data li.photo .info {
+          background: rgba(0, 0, 0, 0.3);
+          padding: 0.5rem;
+          position: absolute;
+          bottom: 0;
+          width: 100%;
+          opacity: 0.5; }
+        .filemanager .data li.photo .name {
+          display: inline-block;
+          color: white;
+          position: static;
+          float: right;
+          width: auto;
+          line-height: 1.7; }
+        .filemanager .data li.photo .description {
+          font-size: 1rem;
+          font-weight: 300;
+          text-shadow: 1px 1px 0 #000;
+          line-height: 1.2;
+          display: none; }
+  .filemanager .artist {
+    display: inline-block;
+    padding: 0.25rem 0.6rem;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.6);
+    font-size: 0.8rem;
+    font-weight: 600; }
+    .filemanager .artist .icon {
+      margin-right: 0.35rem; }
+
+.photo-info .mini {
+  margin-right: 0.5rem;
+  color: rgba(255, 255, 255, 0.7); }
+  .photo-info .lead {
+    font-weight: 500;
+    font-size: 1.1em;
+    display: block; }
+  .photo-info .keyword {
+    background: rgba(255, 255, 255, 0.1);
+    margin-right: 0.5rem;
+    font-weight: 300; }
+    .photo-info .keyword:hover {
+      cursor: pointer;
+      background-color: #254b97; }
+
+.logo {
+  padding-top: 15px;
+  float: right; }
+  .logo .image {
+    height: 100px; }
+
+.headerbar {
+  font-family: sans-serif;
+  font-size: 3em; }
+  .headerbar > a:link, .headerbar > a:visited, .headerbar > a:hover, .headerbar > a:active {
+    text-decoration: none; }
+
+.subhead {
+  font-size: 1em;
+  padding-right: 115px; }
+  @media screen and (max-width: 480px) {
+  .subhead {
+    padding-right: 0; } }
+
+.frontpage .breadcrumbs {
+  display: none; }
+
+.photo-info {
+  overflow: auto; }
+  @media screen and (max-width: 480px) {
+  .photo-info {
+    display: none; } }
+
+@media screen and (max-width: 480px) {
+    .pswp__scroll-wrap {
+      width: 100% !important; } }
