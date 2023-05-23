@@ -159,9 +159,13 @@ function getDirectoryListing($jsonFile, $photoDir, $thumbsDir) {
 }
 
 function createThumbnailDirectory($thumbsDir) {
-    if (!file_exists($thumbsDir) || !file_exists($thumbsDir . '/small') || !file_exists($thumbsDir . '/large')) {
+    if (!file_exists($thumbsDir)) {
         mkdir($thumbsDir);
+    }
+    if (!file_exists($thumbsDir . '/small')) {
         mkdir($thumbsDir . '/small', 0777, true);
+    }
+    if (!file_exists($thumbsDir . '/large')) {
         mkdir($thumbsDir . '/large', 0777, true);
     }
 }
